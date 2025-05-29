@@ -3,12 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Conspiracy</title>
 </head>
 <body>
-    <h1>Hello world
-        
+    <h1>Hello anaonimous user! Fell free to share your Conspiracy theories.
     </h1>
-    
+    <p>The theorie that is the most voted by the community each week will remain forever on the Hall of Fame page!</p>
+
+    <h2>Submit Your Conspiracy Theory</h2>
+
+  <form id="theoryForm">
+    <label>Title:</label><br/>
+    <input type="text" id="title" required /><br/><br/>
+
+    <label>Content:</label><br/>
+    <textarea id="text_content" rows="5" required></textarea><br/><br/>
+
+    <label>Optional Media URL:</label><br/>
+    <input type="text" id="media" /><br/><br/>
+
+    <label>Your Alias:</label><br/>
+    <input type="text" id="author" /><br/><br/>
+
+    <button type="submit">Submit Theory</button>
+  </form>
+
+  <div id="theories"></div>
+
+ <script>
+  const API_URL_GET = "/posts";
+  const API_URL_POST = "/create_post";
+  const API_KEY = "ianisaremere";
+
+  const form = document.getElementById("theoryForm");
+  const theories = document.getElementById("theories");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const title = document.getElementById("title").value;
+    const text_content = document.getElementById("text_content").value;
+    const media = document.getElementById("media").value || null;
+    const author = document.getElementById("author").value || "Anonymous";
+
+    const postData = {
+      title,
+      text_content,
+      media,
+      author
+    };
+
+    try {
+      const response = await fetch(API_URL_POST, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-Key": API_KEY
+        },
+        body: JSON.stringify(postData)
+      });
+
+      if (response.ok) {
+        alert("Conspiracy theory submitted!");
+        form.reset();
+        loadTheories(); // Refresh immediately after submission
+      } else {
+        const error = await response.json();
+        alert("Error: " + error.detail);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("An unexpected error occurred.");
+    }
+  });
+
+  async function loadTheories() {
+    try {
+      const response = await fetch(API_URL_GET, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-Key": API_KEY
+        }
+      });
+
+      if (!response.ok) throw new Error("Failed to fetch posts");
+
+      const posts = await response.json();
+
+      // Clear the current list
+      theories.innerHTML = "";
+
+      posts.forEach(post => {
+        const postDiv = document.createElement("div");
+        postDiv.style.border = "1px solid #ccc";
+        postDiv.style.padding = "10px";
+        postDiv.style.margin = "10px 0";
+
+        postDiv.innerHTML = `
+          <h3>${post.title}</h3>
+          <p>${post.text_content}</p>
+          ${post.media ? `<img src="${post.media}" style="max-width: 300px;">` : ""}
+          <p><strong>Author:</strong> ${post.author}</p>
+          <button onclick="vote('${post.id}')">Vote</button>
+        `;
+
+        theories.appendChild(postDiv);
+      });
+
+    } catch (err) {
+      console.error("Error fetching posts:", err);
+    }
+  }
+
+  // Load initially
+  loadTheories();
+
+  // Load every 10 seconds
+  setInterval(loadTheories, 10000);
+
+  // Stub vote handler (optional)
+  function vote(id) {
+    alert("Voting not implemented yet. ID: " + id);
+  }
+</script>
+
+
 </body>
 </html>

@@ -38,6 +38,7 @@ class ProfileModel(Base):
 class PostsModel(Base):
     __tablename__ = "posts"
     id = Column(String, primary_key=True, index=True)
+    title=Column(String,nullable=False)
     text_content=Column(String,nullable=False)
     media=Column(String,nullable=True)
     author=Column(String,nullable=False)
@@ -65,14 +66,16 @@ class ProfileOut(BaseModel):
         orm_mode = True
 
 class CreatePost(BaseModel):
+    title:str
     text_content:str
-    media:str
+    media:Optional[str]
     author:str
 
 class ReadPosts(BaseModel):
     id:str
+    title:str
     text_content:str
-    media:str
+    media:Optional[str]
     author:str
 
 
@@ -118,8 +121,9 @@ def create_post(post:CreatePost):
     try:
         new_post=PostsModel(
             id=str(uuid.uuid4()),
+            title=post.title,
             text_content=post.text_content,
-            media=post.media,
+            media=post.media or "",
             author=post.author
             
             )
