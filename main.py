@@ -24,7 +24,7 @@ engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False} i
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 Base = declarative_base()
 
-# === Database Model ===
+# === Database Models ===
 class ProfileModel(Base):
     __tablename__ = "profiles"
     id = Column(String, primary_key=True, index=True)  # UUID
@@ -33,6 +33,15 @@ class ProfileModel(Base):
     last_name = Column(String, nullable=False)
     email = Column(String, nullable=False)
     password = Column(String, nullable=False)
+
+
+class PostsModel(Base):
+    __tablename__ = "posts"
+    id = Column(String, primary_key=True, index=True)
+    text_content=Column(String,nullable=False)
+    media=Column(String,nullable=True)
+    author=Column(String,nullable=False)
+
 
 # Create tables
 Base.metadata.create_all(bind=engine)
@@ -55,6 +64,17 @@ class ProfileOut(BaseModel):
     class Config:
         orm_mode = True
 
+class CreatePost(BaseModel):
+    text_content:str
+    media:str
+    author:str
+
+class ReadPosts(BaseModel):
+    id:str
+    text_content:str
+    media:str
+    author:str
+
 
 class NumberInput(BaseModel):
     number:int
@@ -63,7 +83,7 @@ class StringInput(BaseModel):
     word:str
 
 # === FastAPI app ===
-app = FastAPI(docs_url=None, redoc_url=None)
+app = FastAPI( redoc_url=None) #docs_url=None, for no docs
 
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -91,6 +111,39 @@ async def home(request: Request):
 @app.get("/check_even", response_class=HTMLResponse)
 async def home(request: Request):
     return templates.TemplateResponse("check_even.html", {"request": request, "title":f"Check if a number is even!"})
+
+@app.post("/create_post",response_model=ReadPosts,dependencies=[Depends(verify_api_key)])
+def create_post(post:CreatePost):
+    db= SessionLocal()
+    try:
+        new_post=PostsModel(
+            id=str(uuid.uuid4()),
+            text_content=post.text_content,
+            media=post.media,
+            author=post.author
+            
+            )
+        
+
+        db.add(new_post)
+        db.commit()
+        db.refresh(new_post)
+        return new_post
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        db.close()
+
+
+@app.get("/posts", response_model=List[ReadPosts], dependencies=[Depends(verify_api_key)])
+def get_profiles():
+    db = SessionLocal()
+    try:
+        posts = db.query(PostsModel).all()
+        return posts
+    finally:
+        db.close()
 
 
 
