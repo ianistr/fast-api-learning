@@ -4,6 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Conspiracy</title>
+  <style>
+    /* Basic styles for the collapsible content */
+    .collapsible-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+    }
+    .collapsible-content.expanded {
+      max-height: 1000px; /* A value large enough to contain the content */
+      padding-top: 15px; /* Add some padding when expanded */
+    }
+  </style>
 </head>
 <body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: #333;">
   
@@ -47,18 +59,28 @@
         <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); margin-bottom: 30px; max-width: 100%;"> <!-- Changed max-width to 100% to fill parent -->
           <h2 style="color: #4a5568; margin-bottom: 20px; font-size: 1.8em; border-bottom: 3px solid #667eea; padding-bottom: 10px;">📝 Submit Your Conspiracy Theory</h2>
           
-          <form id="theoryForm" >
-            <label for="title" style="display: block; color: #4a5568; font-weight: 600; margin-bottom: 5px;">Title:</label>
-            <input type="text" id="title" required style="width: 100%; padding: 12px 15px; margin-bottom: 15px; box-sizing: border-box; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; transition: all 0.3s ease; background: #f7fafc;" onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)';" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';" />
-            
-            <label for="text_content" style="display: block; color: #4a5568; font-weight: 600; margin-bottom: 5px;">Content:</label>
-            <textarea id="text_content" rows="5" required style="width: 100%; padding: 12px 15px; margin-bottom: 15px; box-sizing: border-box; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; transition: all 0.3s ease; background: #f7fafc; resize: vertical; min-height: 120px;" onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)';" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';"></textarea>
-            
-            <label for="media" style="display: block; color: #4a5568; font-weight: 600; margin-bottom: 5px;">Optional Media URL:</label>
-            <input type="text" id="media" style="width: 100%; padding: 12px 15px; margin-bottom: 20px; box-sizing: border-box; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; transition: all 0.3s ease; background: #f7fafc;" onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)';" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';" />
-            
-            <button type="submit" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 25px; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(102, 126, 234, 0.6)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.4)';">🚀 Submit Theory</button>
-          </form>
+          <!-- Toggle Button for Form -->
+          <button id="toggleFormButton" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 10px 20px; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); margin-bottom: 20px;"
+            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(102, 126, 234, 0.6)';"
+            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.4)';">
+            ➕ Write
+          </button>
+
+          <!-- Form Content Wrapper -->
+          <div id="formContent" class="collapsible-content">
+            <form id="theoryForm" >
+              <label for="title" style="display: block; color: #4a5568; font-weight: 600; margin-bottom: 5px;">Title:</label>
+              <input type="text" id="title" required style="width: 100%; padding: 12px 15px; margin-bottom: 15px; box-sizing: border-box; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; transition: all 0.3s ease; background: #f7fafc;" onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)';" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';" />
+              
+              <label for="text_content" style="display: block; color: #4a5568; font-weight: 600; margin-bottom: 5px;">Content:</label>
+              <textarea id="text_content" rows="5" required style="width: 100%; padding: 12px 15px; margin-bottom: 15px; box-sizing: border-box; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; transition: all 0.3s ease; background: #f7fafc; resize: vertical; min-height: 120px;" onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)';" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';"></textarea>
+              
+              <label for="media" style="display: block; color: #4a5568; font-weight: 600; margin-bottom: 5px;">Optional Media URL:</label>
+              <input type="text" id="media" style="width: 100%; padding: 12px 15px; margin-bottom: 20px; box-sizing: border-box; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; transition: all 0.3s ease; background: #f7fafc;" onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)';" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';" />
+              
+              <button type="submit" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 25px; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(102, 126, 234, 0.6)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.4)';">🚀 Submit Theory</button>
+            </form>
+          </div>
         </div>
 
         <div id="theories" style="max-width: 100%;"></div>
@@ -92,6 +114,10 @@
     const userInfoCard = document.getElementById('userInfoCard');
     const usernameDisplay = document.getElementById('usernameDisplay');
     const loginRegisterCard = document.getElementById('loginRegisterCard');
+
+    // New elements for form toggling
+    const toggleFormButton = document.getElementById('toggleFormButton');
+    const formContent = document.getElementById('formContent');
 
     let allPosts = []; // Stores all fetched posts
     let currentPage = 1; // Current page number for pagination
@@ -424,16 +450,16 @@
         };
 
         postDiv.innerHTML = `
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
-            <p style="margin: 0; color: #718096; font-size: 0.9em; background: #f7fafc; padding: 5px 12px; border-radius: 20px; border: 1px solid #e2e8f0;"><strong>👤 by</strong> ${post.author}</p>
-          </div>
-          <h3 style="color: #4a5568; margin: 0 0 15px 0; font-size: 1.4em; font-weight: 700; word-wrap: break-word; overflow-wrap: break-word;">${post.title}</h3>
-          <div id="content-${post.id}" data-full-text="${post.text_content.replace(/"/g, '&quot;')}" data-expanded="false" style="color: #2d3748; line-height: 1.6; margin-bottom: 15px; word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap;">${displayContent}</div>
-          ${needsExpansion ? `<button id="toggle-${post.id}" onclick="toggleExpand('${post.id}')" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 8px 15px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; margin-bottom: 15px; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">${isExpanded ? '📚 Show Less' : '📖 Read More'}</button>` : ''}
-          ${post.media ? `<img src="${post.media}" alt="media" style="max-width: 100%; height: auto; border-radius: 10px; margin: 15px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" onerror="this.onerror=null;this.src='https://placehold.co/400x200/cccccc/333333?text=Image+Not+Found';" />` : ""}
-          <div style="display: flex; gap: 10px; margin-top: 20px;">
-            <button onclick="vote('${post.id}')" style="background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); color: white; padding: 10px 20px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(237, 137, 54, 0.4);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(237, 137, 54, 0.6)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(237, 137, 54, 0.4)';">👍 Vote</button>
-          </div>
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+    <p style="margin: 0; color: #718096; font-size: 0.9em; background: #f7fafc; padding: 5px 12px; border-radius: 20px; border: 1px solid #e2e8f0;"><strong>👤</strong> ${post.author}</p>
+  </div>
+  <h3 style="color: #4a5568; margin: 0 0 15px 0; font-size: 1.4em; font-weight: 700; word-wrap: break-word; overflow-wrap: break-word;">${post.title}</h3>
+  <div id="content-${post.id}" data-full-text="${post.text_content.replace(/"/g, '&quot;')}" data-expanded="false" style="color: #2d3748; line-height: 1.6; margin-bottom: 15px; word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap;">${displayContent}</div>
+  ${post.media ? `<img src="${post.media}" alt="media" style="max-width: 100%; height: auto; border-radius: 10px; margin: 15px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" onerror="this.onerror=null;this.src='https://placehold.co/400x200/cccccc/333333?text=Image+Not+Found';" />` : ""}
+  <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px; align-items: flex-start;">
+    ${needsExpansion ? `<button id="toggle-${post.id}" onclick="toggleExpand('${post.id}')" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 8px 15px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">${isExpanded ? '📚 Show Less' : '📖 Read More'}</button>` : ''}
+    <button onclick="vote('${post.id}')" style="background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); color: white; padding: 10px 20px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(237, 137, 54, 0.4);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(237, 137, 54, 0.6)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(237, 137, 54, 0.4)';">👍 Vote</button>
+  </div>
         `;        
         theories.appendChild(postDiv);
       });
@@ -620,6 +646,22 @@
         document.head.appendChild(style);
     }
 
+    // Function to toggle the visibility of the form
+    function toggleFormVisibility() {
+      if (formContent.classList.contains('expanded')) {
+        formContent.classList.remove('expanded');
+        toggleFormButton.textContent = '➕ Write';
+        formContent.style.paddingTop = '0'; // Remove padding when collapsed
+      } else {
+        formContent.classList.add('expanded');
+        toggleFormButton.textContent = '➖ Hide';
+        formContent.style.paddingTop = '15px'; // Add padding when expanded
+      }
+    }
+
+    // Event listener for the form toggle button
+    toggleFormButton.addEventListener('click', toggleFormVisibility);
+
 
     // Make functions available globally so they can be called from inline event handlers
     window.toggleExpand = toggleExpand;
@@ -627,6 +669,7 @@
     window.toggleWeeklyExpand = toggleWeeklyExpand;
     window.vote = vote;
     window.showMessageBox = showMessageBox; // Make message box available globally
+    window.toggleFormVisibility = toggleFormVisibility; // Make toggleFormVisibility available globally
 
     // Initialize the page content when the script loads
     loadHallOfFame();
