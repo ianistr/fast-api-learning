@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Up</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 10px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="password"] {
+      padding: 8px;
+      margin-top: 5px;
+      font-size: 1em;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    .message {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 5px;
+      display: none;
+    }
+    .message.success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      display: block;
+    }
+    .message.error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Register</h1>
+  
+  <form id="signupForm" autocomplete="off">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" required />
+
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required />
+
+    <button type="submit">Sign Up</button>
+  </form>
+
+  <div id="message" class="message"></div>
+
+  <script>
+    const form = document.getElementById('signupForm');
+    const messageDiv = document.getElementById('message');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      messageDiv.textContent = '';
+      messageDiv.className = 'message';
+
+      const username = form.username.value.trim();
+      const password = form.password.value;
+
+      if (!username || !password) {
+        messageDiv.textContent = 'Please fill out both fields.';
+        messageDiv.classList.add('error');
+        return;
+      }
+
+      // Prepare URL-encoded form data for registration
+      const registerData = new URLSearchParams();
+      registerData.append('username', username);
+      registerData.append('password', password);
+
+      try {
+        // Register user
+        const registerResponse = await fetch('/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: registerData.toString()
+        });
+
+        if (!registerResponse.ok) {
+          const errorData = await registerResponse.json();
+          messageDiv.textContent = errorData.detail || 'Registration failed.';
+          messageDiv.classList.add('error');
+          return;
+        }
+
+        // If registration succeeded, automatically login
+        const loginData = new URLSearchParams();
+        loginData.append('username', username);
+        loginData.append('password', password);
+
+        const loginResponse = await fetch('/auth/token', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: loginData.toString()
+        });
+
+        if (!loginResponse.ok) {
+          messageDiv.textContent = 'Registration succeeded, but automatic login failed.';
+          messageDiv.classList.add('error');
+          return;
+        }
+
+        const loginResult = await loginResponse.json();
+
+        // Save token (localStorage for example)
+        localStorage.setItem('access_token', loginResult.access_token);
+
+        // Redirect to profile page
+        window.location.href = '/profile';
+
+      } catch (error) {
+        messageDiv.textContent = 'Network error. Please try again.';
+        messageDiv.classList.add('error');
+      }
+    });
+  </script>
+
+</body>
+</html>
+
+

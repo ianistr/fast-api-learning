@@ -51,6 +51,12 @@ async def home(request: Request,name:str="guest"):
 async def login_page(request: Request):
     return templates.TemplateResponse("login.html", {"request": request, "title": "Login"})
 
+
+
+@app.get("/signup", response_class=HTMLResponse)
+async def signup_page(request: Request):
+    return templates.TemplateResponse("signup.html", {"request": request, "title": "Sign up"})
+
 @app.get("/profile", response_class=HTMLResponse)
 async def profile_page(request: Request):
     return templates.TemplateResponse("profile.html", {"request": request, "title": "Profile"})

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status,Form
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from jose import JWTError, jwt
@@ -30,6 +30,7 @@ class UserCreate(BaseModel):
 class UserOut(BaseModel):
     id: str
     username: str
+    hashed_password:str
 
     class Config:
         orm_mode = True
@@ -65,21 +66,28 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
 
 
 # --- Routes ---
+
+
 @router.post("/register", response_model=UserOut)
-def register(user: UserCreate, db: Session = Depends(get_db)):
-    existing_user = db.query(ProfileModel).filter(ProfileModel.username == user.username).first()
+def register(
+    username: str = Form(...), 
+    password: str = Form(...), 
+    db: Session = Depends(get_db)
+):
+    existing_user = db.query(ProfileModel).filter(ProfileModel.username == username).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="Username already registered")
 
     new_user = ProfileModel(
         id=str(uuid4()),
-        username=user.username,
-        hashed_password=hash_password(user.password)
+        username=username,
+        hashed_password=hash_password(password)
     )
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
     return new_user
+
 
 @router.post("/token", response_model=Token)
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
@@ -97,3 +105,9 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
 @router.get("/me", response_model=UserOut)
 def read_current_user(current_user: ProfileModel = Depends(get_current_user)):
     return current_user
+
+
+@router.get("/internal/users", response_model=list[UserOut])
+def get_all_users(db: Session = Depends(get_db)):
+    users = db.query(ProfileModel).all()
+    return users
