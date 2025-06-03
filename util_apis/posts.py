@@ -7,6 +7,8 @@ from database import SessionLocal
 from api_key import verify_api_key
 from pydantic import BaseModel
 from typing import Optional, List
+from database import get_db
+from .auth import get_current_user
 
 router = APIRouter()
 
@@ -15,7 +17,8 @@ class CreatePost(BaseModel):
     title: str
     text_content: str
     media: Optional[str]
-    author: str
+   
+    
 
 class ReadPosts(BaseModel):
     id: str
@@ -27,23 +30,25 @@ class ReadPosts(BaseModel):
     class Config:
         orm_mode = True
 
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
-@router.post("/create_post", response_model=ReadPosts, dependencies=[Depends(verify_api_key)])
-def create_post(post: CreatePost, db: Session = Depends(get_db)):
+
+@router.post(
+    "/create_post",
+    response_model=ReadPosts,
+    dependencies=[Depends(verify_api_key)]  # optional, keep if you want API key check
+)
+def create_post(
+    post: CreatePost,
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)  # this protects route and gives user info
+):
     try:
         new_post = PostsModel(
             id=str(uuid4()),
             title=post.title,
             text_content=post.text_content,
             media=post.media or "",
-            author=post.author
+            author=current_user.username  # author is the logged in user
         )
         db.add(new_post)
         db.commit()

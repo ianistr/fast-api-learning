@@ -5,11 +5,8 @@ from database import Base
 class ProfileModel(Base):
     __tablename__ = "profiles"
     id = Column(String, primary_key=True, index=True)
-    cnp = Column(String, unique=True, nullable=False, index=True)
-    first_name = Column(String, nullable=False)
-    last_name = Column(String, nullable=False)
-    email = Column(String, nullable=False)
-    password = Column(String, nullable=False)
+    username=Column(String,unique=True,nullable=False,index=True)
+    hashed_password = Column(String, nullable=False)
 
 class PostsModel(Base):
     __tablename__ = "posts"

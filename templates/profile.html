@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Your Profile</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f0f0f0; padding: 2rem; }
+        .profile-container {
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 { text-align: center; }
+        .field { margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <h2>Your Profile</h2>
+        <div id="profile-data">
+            Loading...
+        </div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('access_token');
+        const profileDiv = document.getElementById('profile-data');
+
+        if (!token) {
+            profileDiv.innerHTML = 'Not logged in. <a href="/login">Login</a>';
+        } else {
+            fetch('/auth/me', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(async response => {
+                if (!response.ok) {
+                    throw new Error('Unauthorized');
+                }
+                return response.json();
+            })
+            .then(user => {
+                profileDiv.innerHTML = `
+                    <div class="field"><strong>Username:</strong> ${user.username}</div>
+                    <div class="field"><strong>User ID:</strong> ${user.id}</div>
+                `;
+            })
+            .catch(err => {
+                console.error(err);
+                profileDiv.innerHTML = 'Session expired or unauthorized. <a href="/login">Login again</a>';
+            });
+        }
+    </script>
+</body>
+</html>
+
+
