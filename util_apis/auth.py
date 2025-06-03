@@ -30,7 +30,6 @@ class UserCreate(BaseModel):
 class UserOut(BaseModel):
     id: str
     username: str
-    hashed_password:str
 
     class Config:
         orm_mode = True

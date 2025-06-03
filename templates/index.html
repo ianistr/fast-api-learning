@@ -102,8 +102,9 @@
   </div>
 
   <script>
-    const API_URL_GET = "/api/posts";
+    const API_URL_GET = "/api/posts-with-upvotes"; // Changed to fetch upvote status
     const API_URL_POST = "/api/create_post";
+    const API_URL_TOGGLE_UPVOTE = "/api/posts"; // Base URL for upvoting
     const API_KEY = "ianisaremere"; // This API key is a placeholder and should be managed securely in a real application.
 
     const form = document.getElementById("theoryForm");
@@ -426,6 +427,23 @@
         const isExpanded = expandedPosts.has(post.id);
         const displayContent = needsExpansion && !isExpanded ? truncateText(post.text_content) : post.text_content;
 
+        // Determine button styles based on user_has_upvoted
+        const voteButtonBackground = post.user_has_upvoted 
+            ? 'linear-gradient(135deg, #ed8936 0%, #dd6b20 100%)' 
+            : 'linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%)';
+        const voteButtonColor = post.user_has_upvoted ? 'white' : '#4a5568';
+        const voteButtonBorder = post.user_has_upvoted ? 'none' : '1px solid #e2e8f0';
+        const voteButtonShadow = post.user_has_upvoted 
+            ? '0 4px 15px rgba(237, 137, 54, 0.4)' 
+            : '0 4px 15px rgba(0,0,0,0.1)';
+
+        // Hover styles for the vote button
+        const voteButtonHoverTransform = 'translateY(-2px)';
+        const voteButtonHoverShadow = post.user_has_upvoted 
+            ? '0 8px 25px rgba(237, 137, 54, 0.6)' 
+            : '0 8px 25px rgba(0,0,0,0.2)';
+
+
         postDiv.style.cssText = `
           background: rgba(255, 255, 255, 0.95);
           backdrop-filter: blur(10px);
@@ -457,8 +475,9 @@
   <div id="content-${post.id}" data-full-text="${post.text_content.replace(/"/g, '&quot;')}" data-expanded="false" style="color: #2d3748; line-height: 1.6; margin-bottom: 15px; word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap;">${displayContent}</div>
   ${post.media ? `<img src="${post.media}" alt="media" style="max-width: 100%; height: auto; border-radius: 10px; margin: 15px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" onerror="this.onerror=null;this.src='https://placehold.co/400x200/cccccc/333333?text=Image+Not+Found';" />` : ""}
   <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px; align-items: flex-start;">
+    <p style="color: #4a5568; font-size: 1em; margin: 0;">👍 ${post.upvote_count} Votes</p> <!-- Added line to display upvote count -->
     ${needsExpansion ? `<button id="toggle-${post.id}" onclick="toggleExpand('${post.id}')" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 8px 15px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">${isExpanded ? '📚 Show Less' : '📖 Read More'}</button>` : ''}
-    <button onclick="vote('${post.id}')" style="background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); color: white; padding: 10px 20px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(237, 137, 54, 0.4);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(237, 137, 54, 0.6)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(237, 137, 54, 0.4)';">👍 Vote</button>
+    <button onclick="vote('${post.id}')" style="background: ${voteButtonBackground}; color: ${voteButtonColor}; padding: 10px 20px; border: ${voteButtonBorder}; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: ${voteButtonShadow};" onmouseover="this.style.transform='${voteButtonHoverTransform}'; this.style.boxShadow='${voteButtonHoverShadow}';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='${voteButtonShadow}';">${post.user_has_upvoted ? '👍 Voted' : '👍 Vote'}</button>
   </div>
         `;        
         theories.appendChild(postDiv);
@@ -469,16 +488,21 @@
     // Function to fetch all theories from the API and then render the current page
     async function fetchAndRenderTheories() {
       try {
-        const response = await fetch(API_URL_GET, {
-          headers: {
+        const token = localStorage.getItem("access_token");
+        const headers = {
             "Content-Type": "application/json",
             "X-API-Key": API_KEY
-          }
-        });
+        };
+        if (token) {
+            headers["Authorization"] = `Bearer ${token}`;
+        }
+
+        const response = await fetch(API_URL_GET, { headers });
 
         if (!response.ok) throw new Error("Failed to fetch posts");
 
         allPosts = await response.json();
+        console.log("Fetched posts with upvote status:", allPosts); // Debugging line
         allPosts.reverse(); // Reverse the array to show newest posts first
 
         renderTheories();
@@ -531,9 +555,36 @@
       }
     });
 
-    // Placeholder for voting functionality
-    function vote(id) {
-      showMessageBox("Voting for ID: " + id + " is not yet implemented.");
+    // Function to handle voting
+    async function vote(postId) {
+        const token = localStorage.getItem("access_token");
+        if (!token) {
+            showMessageBox("You must be logged in to vote.");
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL_TOGGLE_UPVOTE}/${postId}/upvote`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-API-Key": API_KEY,
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                showMessageBox(`Vote ${result.action} successfully! Current votes: ${result.upvote_count}`);
+                fetchAndRenderTheories(); // Refresh theories to show updated vote count and status
+            } else {
+                const error = await response.json();
+                showMessageBox("Error: " + (error.detail || response.statusText));
+            }
+        } catch (err) {
+            console.error("Error voting:", err);
+            showMessageBox("An unexpected error occurred while voting.");
+        }
     }
 
     // Function to update user info card and login/register card visibility
