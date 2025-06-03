@@ -7,14 +7,34 @@
 </head>
 <body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: #333;">
   
-  <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); margin-bottom: 30px; position: relative; max-width: 50vw; margin-right: auto;">
-    <h1 style="text-align: center; color: #4a5568; margin-bottom: 10px; font-size: 2.5em; font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.1);">🕵️ Conspiracy Central</h1>
-    <p style="text-align: center; color: #718096; font-size: 1.1em; margin-bottom: 0; font-style: italic;">The theory that is the most voted by the community each week will remain forever on the Hall of Fame page!</p>
-    
-    <a href="/profile" style="position: absolute; top: 20px; right: 20px; background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%); color: white; border-radius: 50%; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; text-decoration: none; font-size: 1.8em; box-shadow: 0 4px 15px rgba(246, 173, 85, 0.4); transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.1) rotate(5deg)'; this.style.boxShadow='0 8px 25px rgba(246, 173, 85, 0.6)';" onmouseout="this.style.transform='scale(1) rotate(0deg)'; this.style.boxShadow='0 4px 15px rgba(246, 173, 85, 0.4)';">👤</a>
+  <div style="margin-bottom: 30px; position: relative; max-width: 100%; margin: 0 auto 30px auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+    <!-- Left Card: Page Title -->
+    <div id="pageTitleCard" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); flex-shrink: 0; max-width: 70vw; text-align: center; flex-grow: 1;">
+        <h1 style="color: #4a5568; margin-bottom: 5px; font-size: 2em; font-weight: 700; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">🕵️ Conspiracy Central</h1>
+        <p style="color: #718096; font-size: 0.9em; margin-bottom: 0; font-style: italic;">The theory that is the most voted by the community each week will remain forever on the Hall of Fame page!</p>
+    </div>
+
+    <!-- Right-side Cards Container -->
+    <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap; justify-content: flex-end; flex-grow: 1;">
+        <!-- New Card Placeholder (Login/Register) -->
+        <a href="/login" id="loginRegisterCard" style="display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 10px 15px; border-radius: 25px; box-shadow: 0 4px 15px rgba(72, 187, 120, 0.4); transition: all 0.3s ease; text-decoration: none; white-space: nowrap; flex-shrink: 0;"
+           onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 25px rgba(72, 187, 120, 0.6)';"
+           onmouseout="this.style.transform='scale(1)';">
+            <span style="font-size: 1.0em; font-weight: 600;">Join Us!</span>
+            <span style="font-size: 1.5em; line-height: 1;">✨</span>
+        </a>
+
+        <!-- User Info Card (Profile) -->
+        <a href="/profile" id="userInfoCard" style="display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%); color: white; padding: 10px 15px; border-radius: 25px; box-shadow: 0 4px 15px rgba(246, 173, 85, 0.4); transition: all 0.3s ease; text-decoration: none; white-space: nowrap; flex-shrink: 0;"
+           onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 25px rgba(246, 173, 85, 0.6)';"
+           onmouseout="this.style.transform='scale(1)';">
+            <span id="usernameDisplay" style="font-size: 1.0em; font-weight: 600;">Loading...</span>
+            <span style="font-size: 1.5em; line-height: 1;">👤</span>
+        </a>
+    </div>
   </div>
 
-  <div style="display: flex; gap: 30px; align-items: flex-start;">
+  <div style="display: flex; gap: 30px; align-items: flex-start; flex-wrap: wrap; justify-content: center; max-width: 70vw;">
     <div style="flex: 0 0 350px; position: sticky; top: 20px;">
       <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
         <h2 style="color: #4a5568; margin-bottom: 20px; font-size: 1.6em; border-bottom: 3px solid #f6ad55; padding-bottom: 10px; text-align: center;">🏆 Hall of Fame</h2>
@@ -22,8 +42,8 @@
       </div>
     </div>
 
-    <div style="flex: 1; min-width: 0;">
-      <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); margin-bottom: 30px;max-width: 50vw; ">
+    <div style="flex: 1; min-width: 0; /* Adjust based on sidebar width + gap */">
+      <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); margin-bottom: 30px;">
         <h2 style="color: #4a5568; margin-bottom: 20px; font-size: 1.8em; border-bottom: 3px solid #667eea; padding-bottom: 10px;">📝 Submit Your Conspiracy Theory</h2>
         
         <form id="theoryForm" >
@@ -40,9 +60,9 @@
         </form>
       </div>
 
-      <div id="theories" ></div>
+      <div id="theories" style="max-width: 100%;"></div>
       <!-- Pagination Controls -->
-      <div id="pagination-controls" style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 30px; margin-bottom: 20px;">
+      <div id="pagination-controls" style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 30px; margin-bottom: 20px; max-width: 100%;">
         <button id="prevPage" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 10px 18px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">Previous</button>
         <span id="pageInfo" style="font-size: 1.1em; color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);"></span>
         <button id="nextPage" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 10px 18px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">Next</button>
@@ -60,10 +80,13 @@
     const prevPageButton = document.getElementById("prevPage");
     const nextPageButton = document.getElementById("nextPage");
     const pageInfoSpan = document.getElementById("pageInfo");
+    const userInfoCard = document.getElementById('userInfoCard');
+    const usernameDisplay = document.getElementById('usernameDisplay');
+    const loginRegisterCard = document.getElementById('loginRegisterCard');
 
-    let allPosts = []; // Store all fetched posts
+    let allPosts = [];
     let currentPage = 1;
-    const postsPerPage = 8; // Number of posts per page
+    const postsPerPage = 8;
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -94,7 +117,7 @@
         if (response.ok) {
           alert("Conspiracy theory submitted!");
           form.reset();
-          fetchAndRenderTheories(); // Fetch all theories again after submission
+          fetchAndRenderTheories();
         } else {
           const error = await response.json();
           alert("Error: " + (error.detail || response.statusText));
@@ -263,7 +286,7 @@
           border: 1px solid rgba(102, 126, 234, 0.2);
           padding: 25px;
           margin: 20px 0;
-          max-width: 50vw;
+          max-width: 100%; /* Adjusted for responsiveness */
           border-radius: 15px;
           box-shadow: 0 10px 30px rgba(0,0,0,0.1);
           transition: all 0.3s ease;
@@ -313,7 +336,6 @@
         allPosts = await response.json();
         allPosts.reverse(); // Reverse once after fetching all
 
-      //  currentPage = 1; // Reset to first page after fetching new data
         renderTheories();
 
       } catch (err) {
@@ -367,15 +389,55 @@
       alert("Voting not implemented yet. ID: " + id);
     }
 
+    // Function to update user info card and login/register card visibility
+    async function updateUserInfoCard() {
+        const token = localStorage.getItem('access_token');
+        if (token) {
+            try {
+                const response = await fetch('/auth/me', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (response.ok) {
+                    const user = await response.json();
+                    usernameDisplay.textContent = user.username;
+                    userInfoCard.href = "/profile";
+                    userInfoCard.style.display = 'flex'; // Show user card
+                    loginRegisterCard.style.display = 'none'; // Hide login/register card
+                } else {
+                    // Token might be invalid or expired
+                    usernameDisplay.textContent = "Login";
+                    userInfoCard.href = "/login";
+                    userInfoCard.style.display = 'none'; // Hide user card
+                    loginRegisterCard.style.display = 'flex'; // Show login/register card
+                }
+            } catch (error) {
+                console.error("Error fetching user info:", error);
+                usernameDisplay.textContent = "Login";
+                userInfoCard.href = "/login";
+                userInfoCard.style.display = 'none'; // Hide user card
+                loginRegisterCard.style.display = 'flex'; // Show login/register card
+            }
+        } else {
+            usernameDisplay.textContent = "Login";
+            userInfoCard.href = "/login";
+            userInfoCard.style.display = 'none'; // Hide user card
+            loginRegisterCard.style.display = 'flex'; // Show login/register card
+        }
+    }
+
+
     // Make functions available globally
     window.toggleExpand = toggleExpand;
     window.toggleHofExpand = toggleHofExpand;
-    window.vote = vote; // Ensure vote is still global
+    window.vote = vote;
 
     // Initialize
     loadHallOfFame();
-    fetchAndRenderTheories(); // Initial fetch and render
-    setInterval(fetchAndRenderTheories, 10000); // Periodically refresh data
+    fetchAndRenderTheories();
+    updateUserInfoCard(); // Call the new function to populate user info and manage card visibility
+    setInterval(fetchAndRenderTheories, 10000);
   </script>
 
 </body>
