@@ -23,8 +23,8 @@
 
     <div style="margin-bottom: 30px; position: relative; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
       <div id="pageTitleCard" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); flex-shrink: 0; text-align: center; flex-grow: 0;margin: auto;">
-          <h1 style="color: #4a5568; margin-bottom: 5px; font-size: 2em; font-weight: 700; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">🕵️ Conspiracy Central</h1>
-          <p style="color: #718096; font-size: 0.9em; margin-bottom: 0; font-style: italic;">The theory that is the most voted by the community each week will remain forever on the Hall of Fame page!</p>
+         <span style="display: flex; margin: auto;"><img style="width: 60px; height: auto;" src="static/Subject.png"><h1 style="color: #4a5568; margin-bottom: 5px;margin-left: 1rem; font-size: 2em; font-weight: 700; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);"> Conspiracy Connect</h1></span> 
+          <p style="color: #718096; font-size: 0.9em; margin-bottom: 0; font-style: italic;">The theory that is the most voted by the community each week will remain forever on the Hall of Fame page!🕵️</p>
       </div>
 
       <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap; justify-content: flex-end; flex-grow: 1;margin-right: 100px;">
@@ -468,16 +468,18 @@
         };
 
         postDiv.innerHTML = `
+      <p style="display:inline-block; font-size: 0.85em; color: #8b4513; background: rgba(539, 69, 99, 0.1); padding: 2px 8px; border-radius: 10px;">${new Date(post.created_at).getDate()}.${new Date(post.created_at).getMonth() + 1}.${new Date(post.created_at).getFullYear()}</p>
+
     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
-    <p style="margin: 0; color: #718096; font-size: 0.9em; background: #f7fafc; padding: 5px 12px; border-radius: 20px; border: 1px solid #e2e8f0;"><strong>👤</strong> ${post.author}</p>
+    <p style="margin: 0; color: #718096; font-size: 0.9em; background: #f7fafc; padding: 5px 12px; border-radius: 20px; border: 1px solid #e2e8f0;"><strong>👤</strong> ${post.author}</p><p style="color: #4a5568; font-size: 1em; margin: 0;">👍 ${post.upvote_count}</p> 
   </div>
   <h3 style="color: #4a5568; margin: 0 0 15px 0; font-size: 1.4em; font-weight: 700; word-wrap: break-word; overflow-wrap: break-word;">${post.title}</h3>
   <div id="content-${post.id}" data-full-text="${post.text_content.replace(/"/g, '&quot;')}" data-expanded="false" style="color: #2d3748; line-height: 1.6; margin-bottom: 15px; word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap;">${displayContent}</div>
   ${post.media ? `<img src="${post.media}" alt="media" style="max-width: 100%; height: auto; border-radius: 10px; margin: 15px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" onerror="this.onerror=null;this.src='https://placehold.co/400x200/cccccc/333333?text=Image+Not+Found';" />` : ""}
   <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px; align-items: flex-start;">
-    <p style="color: #4a5568; font-size: 1em; margin: 0;">👍 ${post.upvote_count} Votes</p> <!-- Added line to display upvote count -->
+    
     ${needsExpansion ? `<button id="toggle-${post.id}" onclick="toggleExpand('${post.id}')" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 8px 15px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">${isExpanded ? '📚 Show Less' : '📖 Read More'}</button>` : ''}
-    <button onclick="vote('${post.id}')" style="background: ${voteButtonBackground}; color: ${voteButtonColor}; padding: 10px 20px; border: ${voteButtonBorder}; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: ${voteButtonShadow};" onmouseover="this.style.transform='${voteButtonHoverTransform}'; this.style.boxShadow='${voteButtonHoverShadow}';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='${voteButtonShadow}';">${post.user_has_upvoted ? '👍 Voted' : '👍 Vote'}</button>
+    <button onclick="vote('${post.id}')" style="background: ${voteButtonBackground}; color: ${voteButtonColor}; padding: 10px 20px; border: ${voteButtonBorder}; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: ${voteButtonShadow};" onmouseover="this.style.transform='${voteButtonHoverTransform}'; this.style.boxShadow='${voteButtonHoverShadow}';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='${voteButtonShadow}';">${post.user_has_upvoted ? '👍 Voted' : 'Vote'}</button>
   </div>
         `;        
         theories.appendChild(postDiv);
@@ -502,7 +504,7 @@
         if (!response.ok) throw new Error("Failed to fetch posts");
 
         allPosts = await response.json();
-        console.log("Fetched posts with upvote status:", allPosts); // Debugging line
+        
         allPosts.reverse(); // Reverse the array to show newest posts first
 
         renderTheories();

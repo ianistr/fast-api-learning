@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, ForeignKey, UniqueConstraint
+from sqlalchemy import Column, String, Integer, ForeignKey, UniqueConstraint,DateTime,func
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -18,6 +18,7 @@ class PostsModel(Base):
     text_content = Column(String, nullable=False)
     media = Column(String, nullable=True)
     author = Column(String, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     
     # Add upvote count for performance
     upvote_count = Column(Integer, default=0)

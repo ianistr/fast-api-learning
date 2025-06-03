@@ -12,6 +12,7 @@ from database import get_db
 from .auth import get_current_user, SECRET_KEY, ALGORITHM # Keep this for routes that require authentication
 from fastapi.security import OAuth2PasswordBearer # Import OAuth2PasswordBearer
 from jose import JWTError, jwt # Import jwt and JWTError for token decoding
+from datetime import datetime
 
 router = APIRouter()
 
@@ -34,6 +35,7 @@ class ReadPosts(BaseModel):
     text_content: str
     media: Optional[str]
     author: str
+    created_at: datetime
     upvote_count: int
 
     class Config:
@@ -45,6 +47,7 @@ class PostWithUpvoteStatus(BaseModel):
     text_content: str
     media: Optional[str]
     author: str
+    created_at: datetime
     upvote_count: int
     user_has_upvoted: bool
 
@@ -52,6 +55,13 @@ class UpvoteResponse(BaseModel):
     action: str  # "added" or "removed"
     upvote_count: int
     user_has_upvoted: bool
+
+class VoterInfo(BaseModel):
+    id: str
+    username: str
+
+    class Config:
+        orm_mode = True
 
 # Upvote service functions
 def toggle_upvote(db: Session, user_id: str, post_id: str):
@@ -111,6 +121,7 @@ def get_posts_with_upvote_status(db: Session, user_id: str = None):
                 text_content=post.text_content,
                 media=post.media,
                 author=post.author,
+                created_at=post.created_at,
                 upvote_count=post.upvote_count,
                 user_has_upvoted=False
             )
@@ -132,6 +143,7 @@ def get_posts_with_upvote_status(db: Session, user_id: str = None):
             text_content=post.text_content,
             media=post.media,
             author=post.author,
+            created_at=post.created_at,
             upvote_count=post.upvote_count,
             user_has_upvoted=post.id in upvoted_post_ids
         )
@@ -242,3 +254,29 @@ def get_upvote_status(
         "user_has_upvoted": has_upvoted,
         "upvote_count": post.upvote_count
     }
+
+  # route to get what users have voted on a post
+
+@router.get("/posts/{post_id}/voters", response_model=List[VoterInfo], dependencies=[Depends(verify_api_key)])
+def get_post_voters(
+    post_id: str,
+    db: Session = Depends(get_db)
+):
+    """
+    Retrieve a list of users who have voted on a specific post.
+    """
+    # Verify post exists
+    post = db.query(PostsModel).filter(PostsModel.id == post_id).first()
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    
+    # Get all upvotes for the given post_id, and eager load the 'user' relationship
+    upvotes = db.query(UpvoteModel).filter(UpvoteModel.post_id == post_id).all()
+    
+    # Extract voter information from the related ProfileModel objects
+    voters = []
+    for upvote in upvotes:
+        if upvote.user: # Ensure the user relationship is loaded
+            voters.append(VoterInfo(id=upvote.user.id, username=upvote.user.username))
+            
+    return voters
