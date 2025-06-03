@@ -5,67 +5,76 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Conspiracy</title>
 </head>
-<body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: #333;">
+<body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: #333;">
   
-  <div style="margin-bottom: 30px; position: relative; max-width: 100%; margin: 0 auto 30px auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
-    <!-- Left Card: Page Title -->
-    <div id="pageTitleCard" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); flex-shrink: 0; max-width: 70vw; text-align: center; flex-grow: 1;">
-        <h1 style="color: #4a5568; margin-bottom: 5px; font-size: 2em; font-weight: 700; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">🕵️ Conspiracy Central</h1>
-        <p style="color: #718096; font-size: 0.9em; margin-bottom: 0; font-style: italic;">The theory that is the most voted by the community each week will remain forever on the Hall of Fame page!</p>
-    </div>
+  <div style="max-width: 100vw; margin: 0 auto; padding: 20px;"> <!-- Increased max-width for overall content -->
 
-    <!-- Right-side Cards Container -->
-    <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap; justify-content: flex-end; flex-grow: 1;">
-        <!-- New Card Placeholder (Login/Register) -->
-        <a href="/login" id="loginRegisterCard" style="display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 10px 15px; border-radius: 25px; box-shadow: 0 4px 15px rgba(72, 187, 120, 0.4); transition: all 0.3s ease; text-decoration: none; white-space: nowrap; flex-shrink: 0;"
-           onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 25px rgba(72, 187, 120, 0.6)';"
-           onmouseout="this.style.transform='scale(1)';">
-            <span style="font-size: 1.0em; font-weight: 600;">Join Us!</span>
-            <span style="font-size: 1.5em; line-height: 1;">✨</span>
-        </a>
+    <div style="margin-bottom: 30px; position: relative; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+      <div id="pageTitleCard" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); flex-shrink: 0; text-align: center; flex-grow: 0;margin: auto;">
+          <h1 style="color: #4a5568; margin-bottom: 5px; font-size: 2em; font-weight: 700; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">🕵️ Conspiracy Central</h1>
+          <p style="color: #718096; font-size: 0.9em; margin-bottom: 0; font-style: italic;">The theory that is the most voted by the community each week will remain forever on the Hall of Fame page!</p>
+      </div>
 
-        <!-- User Info Card (Profile) -->
-        <a href="/profile" id="userInfoCard" style="display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%); color: white; padding: 10px 15px; border-radius: 25px; box-shadow: 0 4px 15px rgba(246, 173, 85, 0.4); transition: all 0.3s ease; text-decoration: none; white-space: nowrap; flex-shrink: 0;"
-           onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 25px rgba(246, 173, 85, 0.6)';"
-           onmouseout="this.style.transform='scale(1)';">
-            <span id="usernameDisplay" style="font-size: 1.0em; font-weight: 600;">Loading...</span>
-            <span style="font-size: 1.5em; line-height: 1;">👤</span>
-        </a>
-    </div>
-  </div>
+      <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap; justify-content: flex-end; flex-grow: 1;margin-right: 100px;">
+          <a href="/login" id="loginRegisterCard" style="display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 10px 15px; border-radius: 25px; box-shadow: 0 4px 15px rgba(72, 187, 120, 0.4); transition: all 0.3s ease; text-decoration: none; white-space: nowrap; flex-shrink: 0;"
+             onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 25px rgba(72, 187, 120, 0.6)';"
+             onmouseout="this.style.transform='scale(1)';">
+              <span style="font-size: 1.0em; font-weight: 600;">Join Us!</span>
+              <span style="font-size: 1.5em; line-height: 1;">✨</span>
+          </a>
 
-  <div style="display: flex; gap: 30px; align-items: flex-start; flex-wrap: wrap; justify-content: center; max-width: 70vw;">
-    <div style="flex: 0 0 350px; position: sticky; top: 20px;">
-      <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
-        <h2 style="color: #4a5568; margin-bottom: 20px; font-size: 1.6em; border-bottom: 3px solid #f6ad55; padding-bottom: 10px; text-align: center;">🏆 Hall of Fame</h2>
-        <div id="hallOfFame"></div>
+          <a href="/profile" id="userInfoCard" style="display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%); color: white; padding: 10px 15px; border-radius: 25px; box-shadow: 0 4px 15px rgba(246, 173, 85, 0.4); transition: all 0.3s ease; text-decoration: none; white-space: nowrap; flex-shrink: 0;"
+             onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 25px rgba(246, 173, 85, 0.6)';"
+             onmouseout="this.style.transform='scale(1)';">
+              <span id="usernameDisplay" style="font-size: 1.0em; font-weight: 600;">Loading...</span>
+              <span style="font-size: 1.5em; line-height: 1;">👤</span>
+          </a>
       </div>
     </div>
 
-    <div style="flex: 1; min-width: 0; /* Adjust based on sidebar width + gap */">
-      <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); margin-bottom: 30px;">
-        <h2 style="color: #4a5568; margin-bottom: 20px; font-size: 1.8em; border-bottom: 3px solid #667eea; padding-bottom: 10px;">📝 Submit Your Conspiracy Theory</h2>
-        
-        <form id="theoryForm" >
-          <label for="title" style="display: block; color: #4a5568; font-weight: 600; margin-bottom: 5px;">Title:</label>
-          <input type="text" id="title" required style="width: 100%; padding: 12px 15px; margin-bottom: 15px; box-sizing: border-box; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; transition: all 0.3s ease; background: #f7fafc;" onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)';" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';" />
-          
-          <label for="text_content" style="display: block; color: #4a5568; font-weight: 600; margin-bottom: 5px;">Content:</label>
-          <textarea id="text_content" rows="5" required style="width: 100%; padding: 12px 15px; margin-bottom: 15px; box-sizing: border-box; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; transition: all 0.3s ease; background: #f7fafc; resize: vertical; min-height: 120px;" onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)';" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';"></textarea>
-          
-          <label for="media" style="display: block; color: #4a5568; font-weight: 600; margin-bottom: 5px;">Optional Media URL:</label>
-          <input type="text" id="media" style="width: 100%; padding: 12px 15px; margin-bottom: 20px; box-sizing: border-box; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; transition: all 0.3s ease; background: #f7fafc;" onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)';" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';" />
-          
-          <button type="submit" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 25px; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(102, 126, 234, 0.6)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.4)';">🚀 Submit Theory</button>
-        </form>
+    <!-- Main content area with Hall of Fame, Submit Form/Posts, and Leaderboard -->
+    <div style="display: flex; gap: 50px; align-items: flex-start; flex-wrap: wrap; justify-content: center; max-width: 95vw;"> <!-- Increased max-width to 95vw -->
+      <!-- Hall of Fame Section -->
+      <div style="flex: 0 0 350px; position: sticky; top: 20px;">
+        <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+          <h2 style="color: #4a5568; margin-bottom: 20px; font-size: 1.6em; border-bottom: 3px solid #f6ad55; padding-bottom: 10px; text-align: center;">🏆 Hall of Fame</h2>
+          <div id="hallOfFame"></div>
+        </div>
       </div>
 
-      <div id="theories" style="max-width: 100%;"></div>
-      <!-- Pagination Controls -->
-      <div id="pagination-controls" style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 30px; margin-bottom: 20px; max-width: 100%;">
-        <button id="prevPage" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 10px 18px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">Previous</button>
-        <span id="pageInfo" style="font-size: 1.1em; color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);"></span>
-        <button id="nextPage" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 10px 18px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">Next</button>
+      <!-- Submit Form and Theories Section - Adjusted for wider display -->
+      <div style="flex: 1; min-width: 300px;"> <!-- Removed max-width to allow it to expand more -->
+        <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); margin-bottom: 30px; max-width: 100%;"> <!-- Changed max-width to 100% to fill parent -->
+          <h2 style="color: #4a5568; margin-bottom: 20px; font-size: 1.8em; border-bottom: 3px solid #667eea; padding-bottom: 10px;">📝 Submit Your Conspiracy Theory</h2>
+          
+          <form id="theoryForm" >
+            <label for="title" style="display: block; color: #4a5568; font-weight: 600; margin-bottom: 5px;">Title:</label>
+            <input type="text" id="title" required style="width: 100%; padding: 12px 15px; margin-bottom: 15px; box-sizing: border-box; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; transition: all 0.3s ease; background: #f7fafc;" onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)';" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';" />
+            
+            <label for="text_content" style="display: block; color: #4a5568; font-weight: 600; margin-bottom: 5px;">Content:</label>
+            <textarea id="text_content" rows="5" required style="width: 100%; padding: 12px 15px; margin-bottom: 15px; box-sizing: border-box; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; transition: all 0.3s ease; background: #f7fafc; resize: vertical; min-height: 120px;" onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)';" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';"></textarea>
+            
+            <label for="media" style="display: block; color: #4a5568; font-weight: 600; margin-bottom: 5px;">Optional Media URL:</label>
+            <input type="text" id="media" style="width: 100%; padding: 12px 15px; margin-bottom: 20px; box-sizing: border-box; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; transition: all 0.3s ease; background: #f7fafc;" onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)';" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';" />
+            
+            <button type="submit" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 25px; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(102, 126, 234, 0.6)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.4)';">🚀 Submit Theory</button>
+          </form>
+        </div>
+
+        <div id="theories" style="max-width: 100%;"></div>
+        <div id="pagination-controls" style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 30px; margin-bottom: 20px; max-width: 100%;">
+          <button id="prevPage" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 10px 18px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">Previous</button>
+          <span id="pageInfo" style="font-size: 1.1em; color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);"></span>
+          <button id="nextPage" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 10px 18px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">Next</button>
+        </div>
+      </div>
+
+      <!-- This Week's Leaderboard Section -->
+      <div style="flex: 0 0 350px; position: sticky; top: 20px;">
+        <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+          <h2 style="color: #4a5568; margin-bottom: 20px; font-size: 1.6em; border-bottom: 3px solid #764ba2; padding-bottom: 10px; text-align: center;">📊 This Week's Leaderboard</h2>
+          <div id="weeklyLeaderboard"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -73,7 +82,7 @@
   <script>
     const API_URL_GET = "/api/posts";
     const API_URL_POST = "/api/create_post";
-    const API_KEY = "ianisaremere";
+    const API_KEY = "ianisaremere"; // This API key is a placeholder and should be managed securely in a real application.
 
     const form = document.getElementById("theoryForm");
     const theories = document.getElementById("theories");
@@ -84,51 +93,56 @@
     const usernameDisplay = document.getElementById('usernameDisplay');
     const loginRegisterCard = document.getElementById('loginRegisterCard');
 
-    let allPosts = [];
-    let currentPage = 1;
-    const postsPerPage = 8;
+    let allPosts = []; // Stores all fetched posts
+    let currentPage = 1; // Current page number for pagination
+    const postsPerPage = 8; // Number of posts to display per page
 
+    // Event listener for submitting a new conspiracy theory
     form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+      e.preventDefault(); // Prevent default form submission
 
+      // Get values from form fields
       const title = document.getElementById("title").value.trim();
       const text_content = document.getElementById("text_content").value.trim();
-      const media = document.getElementById("media").value.trim() || null;
+      const media = document.getElementById("media").value.trim() || null; // Optional media URL
 
+      // Check for user authentication token
       const token = localStorage.getItem("access_token");
       if (!token) {
-        alert("You must be logged in to submit a theory.");
+        // Use a custom modal or message box instead of alert()
+        showMessageBox("You must be logged in to submit a theory.");
         return;
       }
 
-      const postData = { title, text_content, media};
+      const postData = { title, text_content, media };
 
       try {
+        // Send a POST request to create a new post
         const response = await fetch(API_URL_POST, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             "X-API-Key": API_KEY,
-            "Authorization": `Bearer ${token}`
+            "Authorization": `Bearer ${token}` // Include authorization token
           },
           body: JSON.stringify(postData)
         });
 
         if (response.ok) {
-          alert("Conspiracy theory submitted!");
-          form.reset();
-          fetchAndRenderTheories();
+          showMessageBox("Conspiracy theory submitted successfully!");
+          form.reset(); // Clear the form
+          fetchAndRenderTheories(); // Refresh the list of theories
         } else {
           const error = await response.json();
-          alert("Error: " + (error.detail || response.statusText));
+          showMessageBox("Error: " + (error.detail || response.statusText));
         }
       } catch (err) {
         console.error(err);
-        alert("An unexpected error occurred.");
+        showMessageBox("An unexpected error occurred.");
       }
     });
 
-    // Mock Hall of Fame data
+    // Mock data for Hall of Fame theories
     const hallOfFameTheories = [
       {
         id: 'hof-1',
@@ -177,18 +191,59 @@
       }
     ];
 
-    // Track expanded posts
+    // Mock data for This Week's Leaderboard
+    const weeklyLeaderboardTheories = [
+        {
+            id: 'wk-1',
+            title: 'Bermuda Triangle Time Warp',
+            author: 'OceanMysteries',
+            votes: 215,
+            content: 'The Bermuda Triangle isn\'t about aliens or sea monsters, but a localized time warp caused by fluctuating magnetic fields, pulling ships and planes into different historical periods or alternate dimensions.'
+        },
+        {
+            id: 'wk-2',
+            title: 'The Great Pacific Garbage Patch is a Secret Island Nation',
+            author: 'EcoWarrior',
+            votes: 188,
+            content: 'The immense floating mass of plastic in the Pacific has secretly developed into a self-sufficient, unrecognized micro-nation, populated by disillusioned environmentalists and rogue scientists operating outside global governance.'
+        },
+        {
+            id: 'wk-3',
+            title: 'Fast Food Chains Control the Weather',
+            author: 'CloudSeeder',
+            votes: 152,
+            content: 'Large fast-food corporations secretly employ advanced weather manipulation technology to ensure consistent crop yields for their ingredients, leading to unusual weather patterns and unpredictable seasons.'
+        },
+        {
+            id: 'wk-4',
+            title: 'Public Parks are Ancient Alien Landing Sites',
+            author: 'AncientAliensAnon',
+            votes: 130,
+            content: 'The meticulously designed layouts of major public parks in capital cities around the world mirror celestial constellations and are actually ancient alien landing sites, preserved and maintained to this day.'
+        },
+        {
+            id: 'wk-5',
+            title: 'Standardized Tests are Mind Control Devices',
+            author: 'ThinkFreely',
+            votes: 110,
+            content: 'The true purpose of standardized educational tests is not to measure intelligence, but to subtly program and categorize the populace for future societal roles, suppressing creativity and independent thought.'
+        }
+    ];
+
+    // Sets to track expanded posts in different sections
     let expandedPosts = new Set();
     let expandedHofPosts = new Set();
+    let expandedWeeklyPosts = new Set();
 
+    // Function to load and display Hall of Fame theories
     function loadHallOfFame() {
       const hallOfFameContainer = document.getElementById('hallOfFame');
-      hallOfFameContainer.innerHTML = '';
+      hallOfFameContainer.innerHTML = ''; // Clear current content
 
       hallOfFameTheories.forEach((theory, index) => {
         const theoryDiv = document.createElement('div');
-        const needsExpansion = theory.content.length > 100;
-        const isExpanded = expandedHofPosts.has(theory.id);
+        const needsExpansion = theory.content.length > 100; // Determine if content needs truncation
+        const isExpanded = expandedHofPosts.has(theory.id); // Check if this post is currently expanded
         const displayContent = needsExpansion && !isExpanded ? theory.content.substring(0, 100) + '...' : theory.content;
 
         theoryDiv.style.cssText = `
@@ -202,7 +257,6 @@
           position: relative;
           ${index === 0 ? 'border-color: #ffd700; background: linear-gradient(135deg, #fff8dc 0%, #fffacd 100%);' : ''}
         `;
-
         theoryDiv.onmouseenter = function() {
           this.style.transform = 'translateY(-2px)';
           this.style.boxShadow = '0 8px 25px rgba(246, 173, 85, 0.3)';
@@ -223,11 +277,11 @@
           <div id="hof-content-${theory.id}" style="color: #654321; font-size: 0.85em; line-height: 1.4; margin-bottom: 8px; word-wrap: break-word; overflow-wrap: break-word;">${displayContent}</div>
           ${needsExpansion ? `<button id="hof-toggle-${theory.id}" onclick="toggleHofExpand('${theory.id}')" style="background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%); color: white; padding: 4px 10px; border: none; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">${isExpanded ? '📚 Less' : '📖 More'}</button>` : ''}
         `;
-
         hallOfFameContainer.appendChild(theoryDiv);
       });
     }
 
+    // Function to toggle content expansion for Hall of Fame theories
     function toggleHofExpand(theoryId) {
       const theory = hallOfFameTheories.find(t => t.id === theoryId);
       const contentElement = document.getElementById(`hof-content-${theoryId}`);
@@ -245,11 +299,77 @@
       }
     }
 
+    // Function to load and display This Week's Leaderboard theories
+    function loadWeeklyLeaderboard() {
+        const leaderboardContainer = document.getElementById('weeklyLeaderboard');
+        leaderboardContainer.innerHTML = ''; // Clear current leaderboard
+
+        weeklyLeaderboardTheories.forEach((theory, index) => {
+            const theoryDiv = document.createElement('div');
+            const needsExpansion = theory.content.length > 100;
+            const isExpanded = expandedWeeklyPosts.has(theory.id);
+            const displayContent = needsExpansion && !isExpanded ? theory.content.substring(0, 100) + '...' : theory.content;
+
+            theoryDiv.style.cssText = `
+                background: linear-gradient(135deg, #e6e6fa 0%, #d8bfd8 100%);
+                border: 2px solid #764ba2;
+                padding: 15px;
+                margin: 12px 0;
+                border-radius: 12px;
+                box-shadow: 0 4px 15px rgba(118, 75, 162, 0.2);
+                transition: all 0.3s ease;
+                position: relative;
+                ${index === 0 ? 'border-color: #8a2be2; background: linear-gradient(135deg, #e0b0ff 0%, #d6a2e8 100%);' : ''}
+            `;
+            theoryDiv.onmouseenter = function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 8px 25px rgba(118, 75, 162, 0.3)';
+            };
+
+            theoryDiv.onmouseleave = function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 4px 15px rgba(118, 75, 162, 0.2)';
+            };
+
+            theoryDiv.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                    <span style="font-size: 1.2em;">#${index + 1}</span>
+                    <div style="font-size: 0.75em; color: #4b0082; background: rgba(75, 0, 130, 0.1); padding: 2px 8px; border-radius: 10px;">This Week</div>
+                </div>
+                <h4 style="color: #4b0082; margin: 0 0 8px 0; font-size: 0.95em; font-weight: 700; word-wrap: break-word; overflow-wrap: break-word; line-height: 1.3;">${theory.title}</h4>
+                <p style="color: #6a5acd; font-size: 0.8em; margin: 0 0 8px 0;">👤 ${theory.author} • 👍 ${theory.votes} votes</p>
+                <div id="wk-content-${theory.id}" style="color: #483d8b; font-size: 0.85em; line-height: 1.4; margin-bottom: 8px; word-wrap: break-word; overflow-wrap: break-word;">${displayContent}</div>
+                ${needsExpansion ? `<button id="wk-toggle-${theory.id}" onclick="toggleWeeklyExpand('${theory.id}')" style="background: linear-gradient(135deg, #764ba2 0%, #6a5acd 100%); color: white; padding: 4px 10px; border: none; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">${isExpanded ? '📚 Less' : '📖 More'}</button>` : ''}
+            `;            
+            leaderboardContainer.appendChild(theoryDiv);
+        });
+    }
+
+    // Function to toggle content expansion for Weekly Leaderboard theories
+    function toggleWeeklyExpand(theoryId) {
+        const theory = weeklyLeaderboardTheories.find(t => t.id === theoryId);
+        const contentElement = document.getElementById(`wk-content-${theoryId}`);
+        const toggleButton = document.getElementById(`wk-toggle-${theoryId}`);
+        const isExpanded = expandedWeeklyPosts.has(theoryId);
+        
+        if (isExpanded) {
+            contentElement.innerHTML = theory.content.substring(0, 100) + '...';
+            toggleButton.textContent = '📖 More';
+            expandedWeeklyPosts.delete(theoryId);
+        } else {
+            contentElement.innerHTML = theory.content;
+            toggleButton.textContent = '📚 Less';
+            expandedWeeklyPosts.add(theoryId);
+        }
+    }
+
+    // Function to truncate text for display
     function truncateText(text, maxLength = 300) {
       if (text.length <= maxLength) return text;
       return text.substring(0, maxLength) + "...";
     }
 
+    // Function to toggle content expansion for main theories (posts)
     function toggleExpand(postId) {
       const contentElement = document.getElementById(`content-${postId}`);
       const toggleButton = document.getElementById(`toggle-${postId}`);
@@ -286,14 +406,13 @@
           border: 1px solid rgba(102, 126, 234, 0.2);
           padding: 25px;
           margin: 20px 0;
-          max-width: 100%; /* Adjusted for responsiveness */
+          max-width: 100%; /* Ensures it fills its parent container */
           border-radius: 15px;
           box-shadow: 0 10px 30px rgba(0,0,0,0.1);
           transition: all 0.3s ease;
           position: relative;
           overflow: hidden;
         `;
-
         postDiv.onmouseenter = function() {
           this.style.transform = 'translateY(-5px)';
           this.style.boxShadow = '0 20px 40px rgba(0,0,0,0.15)';
@@ -311,17 +430,17 @@
           <h3 style="color: #4a5568; margin: 0 0 15px 0; font-size: 1.4em; font-weight: 700; word-wrap: break-word; overflow-wrap: break-word;">${post.title}</h3>
           <div id="content-${post.id}" data-full-text="${post.text_content.replace(/"/g, '&quot;')}" data-expanded="false" style="color: #2d3748; line-height: 1.6; margin-bottom: 15px; word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap;">${displayContent}</div>
           ${needsExpansion ? `<button id="toggle-${post.id}" onclick="toggleExpand('${post.id}')" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 8px 15px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; margin-bottom: 15px; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">${isExpanded ? '📚 Show Less' : '📖 Read More'}</button>` : ''}
-          ${post.media ? `<img src="${post.media}" alt="media" style="max-width: 100%; height: auto; border-radius: 10px; margin: 15px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" />` : ""}
+          ${post.media ? `<img src="${post.media}" alt="media" style="max-width: 100%; height: auto; border-radius: 10px; margin: 15px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" onerror="this.onerror=null;this.src='https://placehold.co/400x200/cccccc/333333?text=Image+Not+Found';" />` : ""}
           <div style="display: flex; gap: 10px; margin-top: 20px;">
             <button onclick="vote('${post.id}')" style="background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); color: white; padding: 10px 20px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(237, 137, 54, 0.4);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(237, 137, 54, 0.6)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(237, 137, 54, 0.4)';">👍 Vote</button>
           </div>
-        `;
+        `;        
         theories.appendChild(postDiv);
       });
       updatePaginationControls();
     }
 
-    // Function to fetch all theories and then render the current page
+    // Function to fetch all theories from the API and then render the current page
     async function fetchAndRenderTheories() {
       try {
         const response = await fetch(API_URL_GET, {
@@ -334,12 +453,13 @@
         if (!response.ok) throw new Error("Failed to fetch posts");
 
         allPosts = await response.json();
-        allPosts.reverse(); // Reverse once after fetching all
+        allPosts.reverse(); // Reverse the array to show newest posts first
 
         renderTheories();
 
       } catch (err) {
         console.error("Error fetching posts:", err);
+        showMessageBox("Failed to load conspiracy theories. Please try again later.");
       }
     }
 
@@ -385,8 +505,9 @@
       }
     });
 
+    // Placeholder for voting functionality
     function vote(id) {
-      alert("Voting not implemented yet. ID: " + id);
+      showMessageBox("Voting for ID: " + id + " is not yet implemented.");
     }
 
     // Function to update user info card and login/register card visibility
@@ -427,19 +548,95 @@
         }
     }
 
+    // Custom message box function (replaces alert())
+    function showMessageBox(message) {
+        // Create modal container
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        `;
 
-    // Make functions available globally
+        // Create message box
+        const messageBox = document.createElement('div');
+        messageBox.style.cssText = `
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            animation: fadeIn 0.3s ease-out;
+        `;
+
+        // Add message content
+        const messageText = document.createElement('p');
+        messageText.textContent = message;
+        messageText.style.fontSize = '1.1em';
+        messageText.style.marginBottom = '20px';
+
+        // Add close button
+        const closeButton = document.createElement('button');
+        closeButton.textContent = 'OK';
+        closeButton.style.cssText = `
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        `;
+        closeButton.onmouseover = () => { closeButton.style.transform = 'translateY(-2px)'; closeButton.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.6)'; };
+        closeButton.onmouseout = () => { closeButton.style.transform = 'translateY(0)'; closeButton.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.4)'; };
+        closeButton.onclick = () => document.body.removeChild(modal);
+
+        messageBox.appendChild(messageText);
+        messageBox.appendChild(closeButton);
+        modal.appendChild(messageBox);
+        document.body.appendChild(modal);
+
+        // Define fadeIn animation
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: scale(0.9); }
+                to { opacity: 1; transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+
+    // Make functions available globally so they can be called from inline event handlers
     window.toggleExpand = toggleExpand;
     window.toggleHofExpand = toggleHofExpand;
+    window.toggleWeeklyExpand = toggleWeeklyExpand;
     window.vote = vote;
+    window.showMessageBox = showMessageBox; // Make message box available globally
 
-    // Initialize
+    // Initialize the page content when the script loads
     loadHallOfFame();
+    loadWeeklyLeaderboard();
     fetchAndRenderTheories();
-    updateUserInfoCard(); // Call the new function to populate user info and manage card visibility
+    updateUserInfoCard(); // Populate user info and manage card visibility on load
+    
+    // Refresh theories every 10 seconds
     setInterval(fetchAndRenderTheories, 10000);
   </script>
-
 </body>
 </html>
 
