@@ -1,134 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conspiracy</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Conspiracy</title>
 </head>
-<body>
+<body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: #333;">
+  
+  <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); margin-bottom: 30px;">
+    <h1 style="text-align: center; color: #4a5568; margin-bottom: 10px; font-size: 2.5em; font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.1);">🕵️ Conspiracy Central</h1>
+    <p style="text-align: center; color: #718096; font-size: 1.1em; margin-bottom: 0; font-style: italic;">The theory that is the most voted by the community each week will remain forever on the Hall of Fame page!</p>
+  </div>
 
- 
-    <p>The theorie that is the most voted by the community each week will remain forever on the Hall of Fame page!</p>
-
-    <h2>Submit Your Conspiracy Theory</h2>
-
-  <form id="theoryForm">
-    <label>Title:</label><br/>
-    <input type="text" id="title" required /><br/><br/>
-
-    <label>Content:</label><br/>
-    <textarea id="text_content" rows="5" required></textarea><br/><br/>
-
-    <label>Optional Media URL:</label><br/>
-    <input type="text" id="media" /><br/><br/>
-
-    <label>Your Alias:</label><br/>
-    <input type="text" id="author" /><br/><br/>
-
-    <button type="submit">Submit Theory</button>
-  </form>
+  <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); margin-bottom: 30px;">
+    <h2 style="color: #4a5568; margin-bottom: 20px; font-size: 1.8em; border-bottom: 3px solid #667eea; padding-bottom: 10px;">📝 Submit Your Conspiracy Theory</h2>
+    
+    <form id="theoryForm">
+      <label for="title" style="display: block; color: #4a5568; font-weight: 600; margin-bottom: 5px;">Title:</label>
+      <input type="text" id="title" required style="width: 100%; padding: 12px 15px; margin-bottom: 15px; box-sizing: border-box; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; transition: all 0.3s ease; background: #f7fafc;" onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)';" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';" />
+      
+      <label for="text_content" style="display: block; color: #4a5568; font-weight: 600; margin-bottom: 5px;">Content:</label>
+      <textarea id="text_content" rows="5" required style="width: 100%; padding: 12px 15px; margin-bottom: 15px; box-sizing: border-box; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; transition: all 0.3s ease; background: #f7fafc; resize: vertical; min-height: 120px;" onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)';" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';"></textarea>
+      
+      <label for="media" style="display: block; color: #4a5568; font-weight: 600; margin-bottom: 5px;">Optional Media URL:</label>
+      <input type="text" id="media" style="width: 100%; padding: 12px 15px; margin-bottom: 20px; box-sizing: border-box; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; transition: all 0.3s ease; background: #f7fafc;" onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)';" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';" />
+      
+      <button type="submit" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 25px; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(102, 126, 234, 0.6)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.4)';">🚀 Submit Theory</button>
+    </form>
+  </div>
 
   <div id="theories"></div>
 
- <script>
-  const API_URL_GET = "/api/posts";
-  const API_URL_POST = "/api/create_post";
-  const API_KEY = "ianisaremere";
+  <script>
+    const API_URL_GET = "/api/posts";
+    const API_URL_POST = "/api/create_post";
+    const API_KEY = "ianisaremere";
 
-  const form = document.getElementById("theoryForm");
-  const theories = document.getElementById("theories");
+    const form = document.getElementById("theoryForm");
+    const theories = document.getElementById("theories");
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-    const title = document.getElementById("title").value;
-    const text_content = document.getElementById("text_content").value;
-    const media = document.getElementById("media").value || null;
-    const author = document.getElementById("author").value || "Anonymous";
+      const title = document.getElementById("title").value.trim();
+      const text_content = document.getElementById("text_content").value.trim();
+      const media = document.getElementById("media").value.trim() || null;
 
-    const postData = {
-      title,
-      text_content,
-      media,
-      author
-    };
-
-    try {
-      const response = await fetch(API_URL_POST, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-API-Key": API_KEY
-        },
-        body: JSON.stringify(postData)
-      });
-
-      if (response.ok) {
-        alert("Conspiracy theory submitted!");
-        form.reset();
-        loadTheories(); // Refresh immediately after submission
-      } else {
-        const error = await response.json();
-        alert("Error: " + error.detail);
+      const token = localStorage.getItem("access_token");
+      if (!token) {
+        alert("You must be logged in to submit a theory.");
+        return;
       }
-    } catch (err) {
-      console.error(err);
-      alert("An unexpected error occurred.");
-    }
-  });
 
-  async function loadTheories() {
-    try {
-      const response = await fetch(API_URL_GET, {
-        headers: {
-          "Content-Type": "application/json",
-          "X-API-Key": API_KEY
+      const postData = { title, text_content, media};
+
+      try {
+        const response = await fetch(API_URL_POST, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-API-Key": API_KEY,
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify(postData)
+        });
+
+        if (response.ok) {
+          alert("Conspiracy theory submitted!");
+          form.reset();
+          loadTheories();
+        } else {
+          const error = await response.json();
+          alert("Error: " + (error.detail || response.statusText));
         }
-      });
+      } catch (err) {
+        console.error(err);
+        alert("An unexpected error occurred.");
+      }
+    });
 
-      if (!response.ok) throw new Error("Failed to fetch posts");
-
-      const posts = await response.json();
-      posts.reverse()  //reverse in backend later
-
-      // Clear the current list
-      theories.innerHTML = "";
-
-      posts.forEach(post => {
-        const postDiv = document.createElement("div");
-        postDiv.style.border = "1px solid #ccc";
-        postDiv.style.padding = "10px";
-        postDiv.style.margin = "10px 0";
-
-        postDiv.innerHTML = `
-        <p><strong>by </strong> ${post.author}</p>
-          <h3>${post.title}</h3>
-          <p>${post.text_content}</p>
-          ${post.media ? `<img src="${post.media}" style="max-width: 300px;">` : ""}
-          
-          <button onclick="vote('${post.id}')">Vote</button>
-        `;
-
-        theories.appendChild(postDiv);
-      });
-
-    } catch (err) {
-      console.error("Error fetching posts:", err);
+    function truncateText(text, maxLength = 300) {
+      if (text.length <= maxLength) return text;
+      return text.substring(0, maxLength) + "...";
     }
-  }
 
-  // Load initially
-  loadTheories();
+    function toggleExpand(postId) {
+      const contentElement = document.getElementById(`content-${postId}`);
+      const toggleButton = document.getElementById(`toggle-${postId}`);
+      const isExpanded = contentElement.getAttribute('data-expanded') === 'true';
+      
+      if (isExpanded) {
+        contentElement.innerHTML = truncateText(contentElement.getAttribute('data-full-text'));
+        toggleButton.textContent = '📖 Read More';
+        contentElement.setAttribute('data-expanded', 'false');
+      } else {
+        contentElement.innerHTML = contentElement.getAttribute('data-full-text');
+        toggleButton.textContent = '📚 Show Less';
+        contentElement.setAttribute('data-expanded', 'true');
+      }
+    }
 
-  // Load every 10 seconds
-  setInterval(loadTheories, 10000);
+    async function loadTheories() {
+      try {
+        const response = await fetch(API_URL_GET, {
+          headers: {
+            "Content-Type": "application/json",
+            "X-API-Key": API_KEY
+          }
+        });
 
-  // Stub vote handler (optional)
-  function vote(id) {
-    alert("Voting not implemented yet. ID: " + id);
-  }
-</script>
+        if (!response.ok) throw new Error("Failed to fetch posts");
 
+        const posts = await response.json();
+        posts.reverse();
+
+        theories.innerHTML = "";
+
+        posts.forEach(post => {
+          const postDiv = document.createElement("div");
+          const needsExpansion = post.text_content.length > 300;
+          const displayContent = needsExpansion ? truncateText(post.text_content) : post.text_content;
+
+          postDiv.style.cssText = `
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+          `;
+
+          postDiv.onmouseenter = function() {
+            this.style.transform = 'translateY(-5px)';
+            this.style.boxShadow = '0 20px 40px rgba(0,0,0,0.15)';
+          };
+
+          postDiv.onmouseleave = function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+          };
+
+          postDiv.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+              <p style="margin: 0; color: #718096; font-size: 0.9em; background: #f7fafc; padding: 5px 12px; border-radius: 20px; border: 1px solid #e2e8f0;"><strong>👤 by</strong> ${post.author}</p>
+            </div>
+            <h3 style="color: #4a5568; margin: 0 0 15px 0; font-size: 1.4em; font-weight: 700; word-wrap: break-word; overflow-wrap: break-word;">${post.title}</h3>
+            <div id="content-${post.id}" data-full-text="${post.text_content.replace(/"/g, '&quot;')}" data-expanded="false" style="color: #2d3748; line-height: 1.6; margin-bottom: 15px; word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap;">${displayContent}</div>
+            ${needsExpansion ? `<button id="toggle-${post.id}" onclick="toggleExpand('${post.id}')" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 8px 15px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; margin-bottom: 15px; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">📖 Read More</button>` : ''}
+            ${post.media ? `<img src="${post.media}" alt="media" style="max-width: 100%; height: auto; border-radius: 10px; margin: 15px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" />` : ""}
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+              <button onclick="vote('${post.id}')" style="background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); color: white; padding: 10px 20px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(237, 137, 54, 0.4);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(237, 137, 54, 0.6)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(237, 137, 54, 0.4)';">👍 Vote</button>
+            </div>
+          `;
+
+          theories.appendChild(postDiv);
+        });
+
+      } catch (err) {
+        console.error("Error fetching posts:", err);
+      }
+    }
+
+    function vote(id) {
+      alert("Voting not implemented yet. ID: " + id);
+    }
+
+    // Make toggleExpand available globally
+    window.toggleExpand = toggleExpand;
+
+    loadTheories();
+    setInterval(loadTheories, 10000);
+  </script>
 
 </body>
 </html>
+
+
