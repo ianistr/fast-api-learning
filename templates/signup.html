@@ -1,147 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sign Up</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 400px;
-      margin: 50px auto;
-      padding: 10px;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-    }
-    label {
-      margin-top: 15px;
-      font-weight: bold;
-    }
-    input[type="text"],
-    input[type="password"] {
-      padding: 8px;
-      margin-top: 5px;
-      font-size: 1em;
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px;
-      font-size: 1em;
-      cursor: pointer;
-    }
-    .message {
-      margin-top: 20px;
-      padding: 10px;
-      border-radius: 5px;
-      display: none;
-    }
-    .message.success {
-      background-color: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
-      display: block;
-    }
-    .message.error {
-      background-color: #f8d7da;
-      color: #721c24;
-      border: 1px solid #f5c6cb;
-      display: block;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign Up - Conspiracy Central</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .signup-container {
+            max-width: 400px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative; /* For the back button */
+        }
+        h2 {
+            color: #4a5568;
+            margin-bottom: 25px;
+            font-size: 2em;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+        label {
+            display: block;
+            color: #4a5568;
+            font-weight: 600;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+        input[type="text"], input[type="password"] {
+            width: calc(100% - 30px); /* Adjust for padding */
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f7fafc;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+        button[type="submit"] {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            width: 100%; /* Make button full width */
+        }
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+        .message {
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 0.95em;
+            text-align: left;
+            display: none; /* Hidden by default */
+        }
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(72, 187, 120, 0.4);
+            transition: all 0.3s ease;
+        }
+        .back-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(72, 187, 120, 0.6);
+        }
+    </style>
 </head>
 <body>
 
-  <h1>Register</h1>
-  
-  <form id="signupForm" autocomplete="off">
-    <label for="username">Username</label>
-    <input type="text" id="username" name="username" required />
+    <div class="signup-container">
+        <a href="/" class="back-button" title="Go back to homepage">←</a>
 
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password" required />
+        <h2>📝 Register</h2>
+        
+        <form id="signupForm" autocomplete="off">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required />
 
-    <button type="submit">Sign Up</button>
-  </form>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required />
 
-  <div id="message" class="message"></div>
+            <button type="submit"
+                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(102, 126, 234, 0.6)';"
+                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.4)';">
+                Sign Up
+            </button>
+        </form>
 
-  <script>
-    const form = document.getElementById('signupForm');
-    const messageDiv = document.getElementById('message');
+        <div id="message" class="message"></div>
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      messageDiv.textContent = '';
-      messageDiv.className = 'message';
+    </div>
 
-      const username = form.username.value.trim();
-      const password = form.password.value;
+    <script>
+        const form = document.getElementById('signupForm');
+        const messageDiv = document.getElementById('message');
 
-      if (!username || !password) {
-        messageDiv.textContent = 'Please fill out both fields.';
-        messageDiv.classList.add('error');
-        return;
-      }
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            messageDiv.textContent = '';
+            messageDiv.className = 'message'; // Reset classes
 
-      // Prepare URL-encoded form data for registration
-      const registerData = new URLSearchParams();
-      registerData.append('username', username);
-      registerData.append('password', password);
+            const username = form.username.value.trim();
+            const password = form.password.value;
 
-      try {
-        // Register user
-        const registerResponse = await fetch('/auth/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          body: registerData.toString()
+            if (!username || !password) {
+                messageDiv.textContent = 'Please fill out both fields.';
+                messageDiv.classList.add('error');
+                return;
+            }
+
+            // Prepare URL-encoded form data for registration
+            const registerData = new URLSearchParams();
+            registerData.append('username', username);
+            registerData.append('password', password);
+
+            try {
+                // Register user
+                const registerResponse = await fetch('/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: registerData.toString()
+                });
+
+                if (!registerResponse.ok) {
+                    const errorData = await registerResponse.json();
+                    messageDiv.textContent = errorData.detail || 'Registration failed.';
+                    messageDiv.classList.add('error');
+                    return;
+                }
+
+                // If registration succeeded, automatically login
+                const loginData = new URLSearchParams();
+                loginData.append('username', username);
+                loginData.append('password', password);
+
+                const loginResponse = await fetch('/auth/token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: loginData.toString()
+                });
+
+                if (!loginResponse.ok) {
+                    messageDiv.textContent = 'Registration succeeded, but automatic login failed.';
+                    messageDiv.classList.add('error');
+                    return;
+                }
+
+                const loginResult = await loginResponse.json();
+
+                // Save token (localStorage for example)
+                localStorage.setItem('access_token', loginResult.access_token);
+
+                // Redirect to profile page
+                window.location.href = '/profile';
+
+            } catch (error) {
+                messageDiv.textContent = 'Network error. Please try again.';
+                messageDiv.classList.add('error');
+            }
         });
-
-        if (!registerResponse.ok) {
-          const errorData = await registerResponse.json();
-          messageDiv.textContent = errorData.detail || 'Registration failed.';
-          messageDiv.classList.add('error');
-          return;
-        }
-
-        // If registration succeeded, automatically login
-        const loginData = new URLSearchParams();
-        loginData.append('username', username);
-        loginData.append('password', password);
-
-        const loginResponse = await fetch('/auth/token', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          body: loginData.toString()
-        });
-
-        if (!loginResponse.ok) {
-          messageDiv.textContent = 'Registration succeeded, but automatic login failed.';
-          messageDiv.classList.add('error');
-          return;
-        }
-
-        const loginResult = await loginResponse.json();
-
-        // Save token (localStorage for example)
-        localStorage.setItem('access_token', loginResult.access_token);
-
-        // Redirect to profile page
-        window.location.href = '/profile';
-
-      } catch (error) {
-        messageDiv.textContent = 'Network error. Please try again.';
-        messageDiv.classList.add('error');
-      }
-    });
-  </script>
+    </script>
 
 </body>
 </html>
-
 

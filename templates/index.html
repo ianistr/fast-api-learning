@@ -7,13 +7,14 @@
 </head>
 <body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: #333;">
   
-  <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); margin-bottom: 30px;">
+  <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); margin-bottom: 30px; position: relative; max-width: 50vw; margin-right: auto;">
     <h1 style="text-align: center; color: #4a5568; margin-bottom: 10px; font-size: 2.5em; font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.1);">🕵️ Conspiracy Central</h1>
     <p style="text-align: center; color: #718096; font-size: 1.1em; margin-bottom: 0; font-style: italic;">The theory that is the most voted by the community each week will remain forever on the Hall of Fame page!</p>
+    
+    <a href="/profile" style="position: absolute; top: 20px; right: 20px; background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%); color: white; border-radius: 50%; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; text-decoration: none; font-size: 1.8em; box-shadow: 0 4px 15px rgba(246, 173, 85, 0.4); transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.1) rotate(5deg)'; this.style.boxShadow='0 8px 25px rgba(246, 173, 85, 0.6)';" onmouseout="this.style.transform='scale(1) rotate(0deg)'; this.style.boxShadow='0 4px 15px rgba(246, 173, 85, 0.4)';">👤</a>
   </div>
 
   <div style="display: flex; gap: 30px; align-items: flex-start;">
-    <!-- Hall of Fame Section -->
     <div style="flex: 0 0 350px; position: sticky; top: 20px;">
       <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
         <h2 style="color: #4a5568; margin-bottom: 20px; font-size: 1.6em; border-bottom: 3px solid #f6ad55; padding-bottom: 10px; text-align: center;">🏆 Hall of Fame</h2>
@@ -21,12 +22,11 @@
       </div>
     </div>
 
-    <!-- Main Content Section -->
     <div style="flex: 1; min-width: 0;">
-      <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); margin-bottom: 30px;">
+      <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); margin-bottom: 30px;max-width: 50vw; ">
         <h2 style="color: #4a5568; margin-bottom: 20px; font-size: 1.8em; border-bottom: 3px solid #667eea; padding-bottom: 10px;">📝 Submit Your Conspiracy Theory</h2>
         
-        <form id="theoryForm">
+        <form id="theoryForm" >
           <label for="title" style="display: block; color: #4a5568; font-weight: 600; margin-bottom: 5px;">Title:</label>
           <input type="text" id="title" required style="width: 100%; padding: 12px 15px; margin-bottom: 15px; box-sizing: border-box; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; transition: all 0.3s ease; background: #f7fafc;" onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)';" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';" />
           
@@ -40,15 +40,15 @@
         </form>
       </div>
 
-      <div id="theories"></div>
+      <div id="theories" ></div>
+      <!-- Pagination Controls -->
+      <div id="pagination-controls" style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 30px; margin-bottom: 20px;">
+        <button id="prevPage" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 10px 18px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">Previous</button>
+        <span id="pageInfo" style="font-size: 1.1em; color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);"></span>
+        <button id="nextPage" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 10px 18px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">Next</button>
+      </div>
     </div>
   </div>
-
-
-
-
-
-  <div id="theories"></div>
 
   <script>
     const API_URL_GET = "/api/posts";
@@ -57,6 +57,13 @@
 
     const form = document.getElementById("theoryForm");
     const theories = document.getElementById("theories");
+    const prevPageButton = document.getElementById("prevPage");
+    const nextPageButton = document.getElementById("nextPage");
+    const pageInfoSpan = document.getElementById("pageInfo");
+
+    let allPosts = []; // Store all fetched posts
+    let currentPage = 1;
+    const postsPerPage = 8; // Number of posts per page
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -87,7 +94,7 @@
         if (response.ok) {
           alert("Conspiracy theory submitted!");
           form.reset();
-          loadTheories();
+          fetchAndRenderTheories(); // Fetch all theories again after submission
         } else {
           const error = await response.json();
           alert("Error: " + (error.detail || response.statusText));
@@ -236,7 +243,63 @@
       }
     }
 
-    async function loadTheories() {
+    // Function to render posts for the current page
+    function renderTheories() {
+      theories.innerHTML = ""; // Clear current theories
+
+      const startIndex = (currentPage - 1) * postsPerPage;
+      const endIndex = startIndex + postsPerPage;
+      const postsToDisplay = allPosts.slice(startIndex, endIndex);
+
+      postsToDisplay.forEach(post => {
+        const postDiv = document.createElement("div");
+        const needsExpansion = post.text_content.length > 300;
+        const isExpanded = expandedPosts.has(post.id);
+        const displayContent = needsExpansion && !isExpanded ? truncateText(post.text_content) : post.text_content;
+
+        postDiv.style.cssText = `
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(102, 126, 234, 0.2);
+          padding: 25px;
+          margin: 20px 0;
+          max-width: 50vw;
+          border-radius: 15px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        `;
+
+        postDiv.onmouseenter = function() {
+          this.style.transform = 'translateY(-5px)';
+          this.style.boxShadow = '0 20px 40px rgba(0,0,0,0.15)';
+        };
+
+        postDiv.onmouseleave = function() {
+          this.style.transform = 'translateY(0)';
+          this.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+        };
+
+        postDiv.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+            <p style="margin: 0; color: #718096; font-size: 0.9em; background: #f7fafc; padding: 5px 12px; border-radius: 20px; border: 1px solid #e2e8f0;"><strong>👤 by</strong> ${post.author}</p>
+          </div>
+          <h3 style="color: #4a5568; margin: 0 0 15px 0; font-size: 1.4em; font-weight: 700; word-wrap: break-word; overflow-wrap: break-word;">${post.title}</h3>
+          <div id="content-${post.id}" data-full-text="${post.text_content.replace(/"/g, '&quot;')}" data-expanded="false" style="color: #2d3748; line-height: 1.6; margin-bottom: 15px; word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap;">${displayContent}</div>
+          ${needsExpansion ? `<button id="toggle-${post.id}" onclick="toggleExpand('${post.id}')" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 8px 15px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; margin-bottom: 15px; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">${isExpanded ? '📚 Show Less' : '📖 Read More'}</button>` : ''}
+          ${post.media ? `<img src="${post.media}" alt="media" style="max-width: 100%; height: auto; border-radius: 10px; margin: 15px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" />` : ""}
+          <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button onclick="vote('${post.id}')" style="background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); color: white; padding: 10px 20px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(237, 137, 54, 0.4);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(237, 137, 54, 0.6)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(237, 137, 54, 0.4)';">👍 Vote</button>
+          </div>
+        `;
+        theories.appendChild(postDiv);
+      });
+      updatePaginationControls();
+    }
+
+    // Function to fetch all theories and then render the current page
+    async function fetchAndRenderTheories() {
       try {
         const response = await fetch(API_URL_GET, {
           headers: {
@@ -247,60 +310,58 @@
 
         if (!response.ok) throw new Error("Failed to fetch posts");
 
-        const posts = await response.json();
-        posts.reverse();
+        allPosts = await response.json();
+        allPosts.reverse(); // Reverse once after fetching all
 
-        theories.innerHTML = "";
-
-        posts.forEach(post => {
-          const postDiv = document.createElement("div");
-          const needsExpansion = post.text_content.length > 300;
-          const isExpanded = expandedPosts.has(post.id);
-          const displayContent = needsExpansion && !isExpanded ? truncateText(post.text_content) : post.text_content;
-
-          postDiv.style.cssText = `
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(102, 126, 234, 0.2);
-            padding: 25px;
-            margin: 20px 0;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-          `;
-
-          postDiv.onmouseenter = function() {
-            this.style.transform = 'translateY(-5px)';
-            this.style.boxShadow = '0 20px 40px rgba(0,0,0,0.15)';
-          };
-
-          postDiv.onmouseleave = function() {
-            this.style.transform = 'translateY(0)';
-            this.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
-          };
-
-          postDiv.innerHTML = `
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
-              <p style="margin: 0; color: #718096; font-size: 0.9em; background: #f7fafc; padding: 5px 12px; border-radius: 20px; border: 1px solid #e2e8f0;"><strong>👤 by</strong> ${post.author}</p>
-            </div>
-            <h3 style="color: #4a5568; margin: 0 0 15px 0; font-size: 1.4em; font-weight: 700; word-wrap: break-word; overflow-wrap: break-word;">${post.title}</h3>
-            <div id="content-${post.id}" data-full-text="${post.text_content.replace(/"/g, '&quot;')}" data-expanded="false" style="color: #2d3748; line-height: 1.6; margin-bottom: 15px; word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap;">${displayContent}</div>
-            ${needsExpansion ? `<button id="toggle-${post.id}" onclick="toggleExpand('${post.id}')" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 8px 15px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; margin-bottom: 15px; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">${isExpanded ? '📚 Show Less' : '📖 Read More'}</button>` : ''}
-            ${post.media ? `<img src="${post.media}" alt="media" style="max-width: 100%; height: auto; border-radius: 10px; margin: 15px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" />` : ""}
-            <div style="display: flex; gap: 10px; margin-top: 20px;">
-              <button onclick="vote('${post.id}')" style="background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); color: white; padding: 10px 20px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(237, 137, 54, 0.4);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(237, 137, 54, 0.6)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(237, 137, 54, 0.4)';">👍 Vote</button>
-            </div>
-          `;
-
-          theories.appendChild(postDiv);
-        });
+      //  currentPage = 1; // Reset to first page after fetching new data
+        renderTheories();
 
       } catch (err) {
         console.error("Error fetching posts:", err);
       }
     }
+
+    // Update pagination button states and page info text
+    function updatePaginationControls() {
+      const totalPages = Math.ceil(allPosts.length / postsPerPage);
+      pageInfoSpan.textContent = `Page ${currentPage} of ${totalPages}`;
+
+      prevPageButton.disabled = currentPage === 1;
+      nextPageButton.disabled = currentPage === totalPages;
+
+      // Apply disabled styles
+      if (prevPageButton.disabled) {
+        prevPageButton.style.opacity = '0.5';
+        prevPageButton.style.cursor = 'not-allowed';
+      } else {
+        prevPageButton.style.opacity = '1';
+        prevPageButton.style.cursor = 'pointer';
+      }
+
+      if (nextPageButton.disabled) {
+        nextPageButton.style.opacity = '0.5';
+        nextPageButton.style.cursor = 'not-allowed';
+      } else {
+        nextPageButton.style.opacity = '1';
+        nextPageButton.style.cursor = 'pointer';
+      }
+    }
+
+    // Event listeners for pagination buttons
+    prevPageButton.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderTheories();
+      }
+    });
+
+    nextPageButton.addEventListener('click', () => {
+      const totalPages = Math.ceil(allPosts.length / postsPerPage);
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderTheories();
+      }
+    });
 
     function vote(id) {
       alert("Voting not implemented yet. ID: " + id);
@@ -309,11 +370,12 @@
     // Make functions available globally
     window.toggleExpand = toggleExpand;
     window.toggleHofExpand = toggleHofExpand;
+    window.vote = vote; // Ensure vote is still global
 
     // Initialize
     loadHallOfFame();
-    loadTheories();
-    setInterval(loadTheories, 10000);
+    fetchAndRenderTheories(); // Initial fetch and render
+    setInterval(fetchAndRenderTheories, 10000); // Periodically refresh data
   </script>
 
 </body>
