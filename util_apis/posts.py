@@ -13,7 +13,7 @@ from database import get_db
 from .auth import get_current_user, SECRET_KEY, ALGORITHM # Keep this for routes that require authentication
 from fastapi.security import OAuth2PasswordBearer # Import OAuth2PasswordBearer
 from jose import JWTError, jwt # Import jwt and JWTError for token decoding
-from datetime import datetime
+from datetime import datetime,timedelta
 
 router = APIRouter()
 
@@ -240,6 +240,30 @@ def get_posts(
         .limit(limit)
         .all()
     )
+
+
+@router.get("/weekly_top_posts", response_model=List[ReadPosts], dependencies=[Depends(verify_api_key)])
+def get_weekly_top_posts(
+    db: Session = Depends(get_db),
+    limit: int = Query(10, ge=1, le=100),
+    offset: int = Query(0, ge=0)
+):
+    now = datetime.utcnow()
+    # Get last Sunday 00:00 UTC
+    days_since_sunday = (now.weekday() + 1) % 7
+    last_sunday = datetime(now.year, now.month, now.day) - timedelta(days=days_since_sunday)
+    last_sunday = last_sunday.replace(hour=0, minute=0, second=0, microsecond=0)
+
+    posts = (
+        db.query(PostsModel)
+        .filter(PostsModel.created_at >= last_sunday)
+        .order_by(desc(PostsModel.upvote_count))
+        .offset(offset)
+        .limit(limit)
+        .all()
+    )
+
+    return posts
 
 
 @router.get("/posts-with-upvotes", response_model=List[PostWithUpvoteStatus])

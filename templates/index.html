@@ -297,7 +297,7 @@
         leaderboardContainer.innerHTML = ''; // Clear current leaderboard
 
           try {
-        const response = await fetch('api/filtered_posts?sort_by=upvote_count&order=desc&limit=10', {
+        const response = await fetch('api/weekly_top_posts?limit=5', {
             headers: {
                 'x-api-key': API_KEY
             }
