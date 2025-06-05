@@ -1,6 +1,7 @@
 # routers/posts.py
-from fastapi import APIRouter, HTTPException, Depends, status
+from fastapi import APIRouter, HTTPException, Depends, status,Query
 from sqlalchemy.orm import Session
+from sqlalchemy import asc,desc
 from uuid import uuid4
 # Correctly import ProfileModel as your user model
 from models import PostsModel, UpvoteModel, ProfileModel
@@ -212,6 +213,34 @@ def create_post(
 @router.get("/posts", response_model=List[ReadPosts], dependencies=[Depends(verify_api_key)])
 def get_posts(db: Session = Depends(get_db)):
     return db.query(PostsModel).all()
+
+@router.get("/filtered_posts", response_model=List[ReadPosts], dependencies=[Depends(verify_api_key)])
+def get_posts(
+    db: Session = Depends(get_db),
+    sort_by: Optional[str] = Query("id"),   # default to "id"
+    order: Optional[str] = Query("desc"),   # "asc" or "desc"
+    limit: int = Query(10, ge=1, le=100),   # limit between 1 and 100
+    offset: int = Query(0, ge=0)            # pagination offset
+):
+    # Ensure the column exists in the model
+    sort_column = getattr(PostsModel, sort_by, None)
+    if not sort_column:
+        raise HTTPException(status_code=400, detail=f"Invalid sort field: {sort_by}")
+
+    # Apply sort direction
+    if order == "asc":
+        order_clause = asc(sort_column)
+    else:
+        order_clause = desc(sort_column)
+
+    return (
+        db.query(PostsModel)
+        .order_by(order_clause)
+        .offset(offset)
+        .limit(limit)
+        .all()
+    )
+
 
 @router.get("/posts-with-upvotes", response_model=List[PostWithUpvoteStatus])
 async def get_posts_with_upvotes(
